@@ -1,9 +1,8 @@
 <?php
 
-use App\Events\FormSubmitted;
-use App\Http\Livewire\GamePage;
-use App\Http\Livewire\OnlineList;
-use Illuminate\Http\Client\Request;
+use App\Http\Livewire\Page\GamePage;
+use App\Http\Livewire\Page\MainPage;
+use App\Http\Livewire\Page\ProfilePage;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,10 +15,11 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+    Route::get('/',MainPage::class);
+
 Route::middleware(['auth:sanctum', 'verified'])->group(function(){
-    Route::get('/', function () {
-        return view('dashboard');
-    })->name('dashboard');    
-    Route::get('/online',OnlineList::class);
+    
+    Route::get('/user',ProfilePage::class);
     Route::get('/game/{id}',GamePage::class);
 });

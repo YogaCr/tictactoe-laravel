@@ -25,12 +25,19 @@ Broadcast::channel('demo',function($user){
     ];
 });
 
-Broadcast::channel('response-req.{reqId}',function($user,$reqId){
-    $req = \App\Models\Request::find($reqId);
-    return ($user->id==$req->from||$user->id==$req->to);
+Broadcast::channel('match-room.{id}',function($user,$id){
+    return [
+        'id' => $user->id,
+        'name' => $user->name
+    ];
 });
 
-Broadcast::channel('match.{$matchId}',function($user,$matchId){
+// Broadcast::channel('response-req.{reqId}',function($user,$reqId){
+//     $req = \App\Models\Request::find($reqId);
+//     return ($user->id==$req->from||$user->id==$req->to);
+// });
+
+Broadcast::channel('match.{matchId}',function($user,$matchId){
     $match = Match::find($matchId);
     return ($user->id==$match->user_id_1||$user->id==$match->user_id_2);
 });

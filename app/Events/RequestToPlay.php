@@ -19,9 +19,10 @@ class RequestToPlay implements ShouldBroadcast
      *
      * @return void
      */
-    public function __construct()
+    public $user;
+    public function __construct($user)
     {
-        //
+        $this->user = $user;
     }
 
     /**
@@ -31,6 +32,6 @@ class RequestToPlay implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('request-to-play');
+        return new Channel('request-to-play.'.$this->user->id);
     }
 }

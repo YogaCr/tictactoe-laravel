@@ -21,12 +21,11 @@ class RequestReponse implements ShouldBroadcast
      *
      * @return void
      */
-    public $req;
-    public $match;
-    public function __construct(Request $request,Match $match=null)
+    
+    public $user_id;
+    public function __construct($user_id)
     {
-        $this->req=$request;
-        $this->match = $match;
+        $this->user_id=$user_id;
     }
 
     /**
@@ -36,13 +35,13 @@ class RequestReponse implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('response-req.'.$this->req->id);
+        return new Channel('response-req.'.$this->user_id);
     }
 
-    public function broadcastWith(){
-        return [
-            'request'=>$this->req->toArray(),
-            'match'=>$this->match->toArray()
-        ];
-    }
+    // public function broadcastWith(){
+    //     return [
+    //         'request'=>$this->req->toArray(),
+    //         'match'=>$this->match->toArray()
+    //     ];
+    // }
 }

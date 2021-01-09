@@ -19,7 +19,8 @@ class CreateMatchTable extends Migration
             $table->unsignedBigInteger('user_id_2');
             $table->enum('user_1_icon',['X','O']);
             $table->enum('user_2_icon',['X','O']);
-            $table->enum('status',['playing','finish']);
+            $table->enum('status',['playing','finish','rematch_request']);
+            $table->unsignedBigInteger('rematch_request_from')->nullable();
             $table->unsignedBigInteger('winner')->nullable();
             $table->enum('box_1',['#','X','O'])->default('#');
             $table->enum('box_2',['#','X','O'])->default('#');
@@ -31,9 +32,12 @@ class CreateMatchTable extends Migration
             $table->enum('box_8',['#','X','O'])->default('#');
             $table->enum('box_9',['#','X','O'])->default('#');
             $table->enum('turn',[1,2]);
+            $table->unsignedBigInteger('user_1_win_count')->default(0);
+            $table->unsignedBigInteger('user_2_win_count')->default(0);
             $table->foreign('user_id_1')->references('id')->on('users')->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreign('user_id_2')->references('id')->on('users')->cascadeOnUpdate()->cascadeOnDelete();
             $table->foreign('winner')->references('id')->on('users')->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreign('rematch_request_from')->references('id')->on('users')->cascadeOnUpdate()->cascadeOnDelete();
             $table->timestamps();
         });
     }
