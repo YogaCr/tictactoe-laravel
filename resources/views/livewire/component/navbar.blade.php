@@ -147,7 +147,7 @@ background: linear-gradient(90deg, rgba(224,167,0,1) 0%, rgba(232,103,1,1) 100%)
               
                 <a class="nav-link dropdown d-flex flex-row align-items-center" href="#" id="userDropdown" role="button" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false">
-                    <img class="h-10 w-10 rounded-full" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
+                    <img class="h-10 w-10 rounded-full" style="object-fit: cover;" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" />
                     <span class="font-profile ml-2 d-none d-lg-inline
                 ">Hi, {{ Auth::user()->name }}</span>
                 

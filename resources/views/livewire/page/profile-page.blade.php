@@ -6,7 +6,10 @@
                 <div class="card-body">
                     <div class="m-2">
                         <div class="container d-flex justify-content-center">
-                            <img class="rounded-circle" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}" width="60%" alt="">
+                            <img class="rounded-circle" style="object-position: center;
+                            object-fit: cover;
+                            width: 255px;
+                            height: 255px;" src="{{ Auth::user()->profile_photo_url }}" alt="{{ Auth::user()->name }}">
                         </div>
                         <div class="row d-flex justify-content-center">
                             <h3 class="mt-3 font-weight-bold" style="font-size:1.5rem">{{Auth::user()->name}}</h3>
@@ -46,7 +49,7 @@
                                             
                                         </tr>
                                         <tr>
-                                            <th scope="row">Rasio menang:seri:kalah</th>
+                                            <th scope="row">Rasio W:D:L</th>
                                             <?php 
                                             $fpb=1;
                                             $i=1;
@@ -64,11 +67,15 @@
                                         </tr>
                                         <tr>
                                             <th scope="row">Rata - rata menang</th>
-                                            <td> : {{round(Auth::user()->win/($jumlah_main==0?1:$jumlah_main),2)}}</td>
+                                            <td> : {{round(Auth::user()->win/($jumlah_main==0?1:$jumlah_main),3)*100}}%</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">Rata - rata seri</th>
+                                            <td> : {{round(Auth::user()->draw/($jumlah_main==0?1:$jumlah_main),3)*100}}%</td>
                                         </tr>
                                         <tr>
                                             <th scope="row">Rata - rata kalah</th>
-                                            <td> : {{round(Auth::user()->lose/($jumlah_main==0?1:$jumlah_main),2)}}</td>
+                                            <td> : {{round(Auth::user()->lose/($jumlah_main==0?1:$jumlah_main),3)*100}}%</td>
                                         </tr>
                                     </tbody>
                                 </table>
