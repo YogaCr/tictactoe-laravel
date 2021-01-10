@@ -46,7 +46,7 @@ class TableRequestList extends Component
 
     public function getListeners()
     {
-        return ['echo:request-to-play.'.Auth::user()->id.',RequestToPlay'=>'getRequestToPlay','acceptRequest','rejectRequest'];
+        return ['echo:request-to-play.'.Auth::user()->id.',RequestToPlay'=>'getRequestToPlay','acceptRequest','rejectRequest','reloadRequest'];
     }
     
     public function getRequestToPlay()
@@ -57,6 +57,13 @@ class TableRequestList extends Component
         //     $this->name_from = $req->From->name;
         //     $this->request_id = $req->id;
         // }
+        $req = Request::where('to', Auth::user()->id)->where('status','pending')->get();
+        if ($req) {
+            $this->req_list = $req;
+        }
+    }
+
+    public function reloadRequest(){
         $req = Request::where('to', Auth::user()->id)->where('status','pending')->get();
         if ($req) {
             $this->req_list = $req;
@@ -89,5 +96,6 @@ class TableRequestList extends Component
         $req->status='rejected';
         $req->save();
         // broadcast(new RequestReponse($req))->toOthers();
+        $this->emit('reloadRequest');
     }
 }

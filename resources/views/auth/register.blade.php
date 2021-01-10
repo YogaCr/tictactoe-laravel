@@ -1,5 +1,5 @@
 <x-guest-layout>
-    
+  @section('title','Register')
     <div id="card">
         <div id="card-content">
           <img src="https://images-na.ssl-images-amazon.com/images/I/41Yj12sPTtL.png" class="card-img-top" alt="logo" />
@@ -32,6 +32,7 @@
     
             <button type="submit" class="btn btn-primary">Sign Up</button>
           </form>
+          <p style="color:white;text-align:center">Sudah punya akun? <a href="{{route('login')}}" style="font-weight: bold">Masuk di sini</a></p>
         </div>
       </div>
       </form>
