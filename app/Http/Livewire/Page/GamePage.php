@@ -89,9 +89,12 @@ class GamePage extends Component
                     $this->match = $match;
                     return;
                 }
+            }else{
+                return redirect('/');
             }
+        }else{
+            return redirect('/');
         }
-        return redirect('/');
     }
 
     public function render()
@@ -191,8 +194,12 @@ class GamePage extends Component
                     return;
                 }
             }
+            else{
+                return redirect('/');
+            }
+        }else{
+            return redirect('/');
         }
-        return redirect('/');
     }
 
     public function clickField($no_field)
