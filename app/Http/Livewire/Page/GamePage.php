@@ -326,9 +326,13 @@ class GamePage extends Component
                     $user_2->save();
                 }
                 event(new GameplayEvent($match));
+            }else{
+                return redirect('/');
             }
+        }else{
+            return redirect('/');
         }
-        return redirect('/');
+        
     }
 
     public function mainLagi()
