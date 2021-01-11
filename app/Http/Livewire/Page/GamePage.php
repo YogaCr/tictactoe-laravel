@@ -59,8 +59,9 @@ class GamePage extends Component
                     ];
                     $this->player_1 = $match->FirstPlayer;
                     $this->player_2 = $match->SecondPlayer;
-                    if ($match->winner) {
+                    if ($match->winner!=null) {
                         $this->winner = $match->Winner;
+                        $this->is_draw = false;
                     } else {
                         $this->is_draw = true;
                     }
@@ -77,8 +78,9 @@ class GamePage extends Component
                     if ($match->winner) {
                         $this->winner = $match->Winner;
                     }
-                    if ($match->winner) {
+                    if ($match->winner!=null) {
                         $this->winner = $match->Winner;
+                        $this->is_draw = false;
                     } else {
                         $this->is_draw = true;
                     }
@@ -160,8 +162,9 @@ class GamePage extends Component
                         [$match->box_4, $match->box_5, $match->box_6],
                         [$match->box_7, $match->box_8, $match->box_9]
                     ];
-                    if ($match->winner) {
+                    if ($match->winner!=null) {
                         $this->winner = $match->Winner;
+                        $this->is_draw = false;
                     } else {
                         $this->is_draw = true;
                     }
@@ -176,8 +179,9 @@ class GamePage extends Component
                     if ($match->winner) {
                         $this->winner = $match->Winner;
                     }
-                    if ($match->winner) {
+                    if ($match->winner!=null) {
                         $this->winner = $match->Winner;
+                        $this->is_draw = false;
                     } else {
                         $this->is_draw = true;
                     }

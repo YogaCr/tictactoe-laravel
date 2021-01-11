@@ -17,7 +17,7 @@
             @else
                 <center><h1 style="color:white;font-size:1.5rem;font-weight:bold">{{$leave_name}} telah keluar dari room.</h1></center>
             @endif
-                <center><a href="{{ url('/') }}" type="button" class="btn btn-danger font-weight-bold" >Kembali Ke Home</a></center>
+                <center><a href="{{ url('/') }}" type="button" class="btn btn-danger font-weight-bold mt-3" >Kembali Ke Home</a></center>
         @endif
     </h1>
     {{-- <div class="d-flex justify-content-center text-center ">
@@ -136,11 +136,11 @@
         @endif
         <div class="footer d-flex flex-row justify-content-center align-items-center">
             <div class="d-flex flex-column flex-sm-row align-items-center">
-                <img class="h-10 w-10 rounded-full mr-2" src="{{ $player_1->profile_photo_url }}" alt="{{ $player_1->name }}" /><span style="font-size:1.5rem">{{$player_1->name}}</span>
+                <img class="h-10 w-10 rounded-full mr-2" style="object-fit: cover;" src="{{ $player_1->profile_photo_url }}" alt="{{ $player_1->name }}" /><span style="font-size:1.5rem">{{$player_1->name}}</span>
             </div>
             <h1 style="font-size:3rem;font-weight:bold" class="ml-3 mr-3">VS</h1>
             <div class="d-flex flex-column-reverse flex-sm-row align-items-center">
-                <span style="font-size:1.5rem">{{$player_2->name}}</span><img class="h-10 w-10 rounded-full ml-2" src="{{ $player_2->profile_photo_url }}" alt="{{ $player_2->name }}" />
+                <span style="font-size:1.5rem">{{$player_2->name}}</span><img class="h-10 w-10 rounded-full ml-2" style="object-fit: cover;" src="{{ $player_2->profile_photo_url }}" alt="{{ $player_2->name }}" />
             </div>
         </div>
         @livewire('component.online-list',['showOnline'=>false])

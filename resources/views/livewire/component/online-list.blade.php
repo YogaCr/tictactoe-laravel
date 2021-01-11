@@ -17,6 +17,14 @@
         </div>
     </div>
     @endif    
+    @if($showAlert)
+    <div class="alert alert-{{$alertType}} alert-dismissible fade show" role="alert" style="position: fixed;top:76px;right:0;left:0;">
+        {{$alertMessage}}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close" wire:click='dismissAlert'>
+          <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    @endif
     <div class="online-section">
         <button class="p-3" style="background-color: #343a40;color: white;width:100%" wire:click="setOnlineExpanded">Online ({{sizeof($user_online)}})</button>
         @if($isExpanded)
