@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use App\Models\Match;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
-
+use App\Models\Request;
 class DeleteOldMatch extends Command
 {
     /**
@@ -40,5 +40,6 @@ class DeleteOldMatch extends Command
     public function handle()
     {
         Match::where('updated_at','<',Carbon::now()->subMinutes(3))->delete();
+        Request::where('updated_at','<',Carbon::now()->subMinutes(3))->where('status','!=','pending')->delete();
     }
 }

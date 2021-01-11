@@ -59,7 +59,7 @@ class GamePage extends Component
                     ];
                     $this->player_1 = $match->FirstPlayer;
                     $this->player_2 = $match->SecondPlayer;
-                    if ($match->winner!=null) {
+                    if ($match->winner != null) {
                         $this->winner = $match->Winner;
                         $this->is_draw = false;
                     } else {
@@ -78,7 +78,7 @@ class GamePage extends Component
                     if ($match->winner) {
                         $this->winner = $match->Winner;
                     }
-                    if ($match->winner!=null) {
+                    if ($match->winner != null) {
                         $this->winner = $match->Winner;
                         $this->is_draw = false;
                     } else {
@@ -138,7 +138,7 @@ class GamePage extends Component
             $match->status = 'finish';
             $match->save();
             $this->leave_name = $data['name'];
-            event(new RequestReponse($match->user_id_1==Auth::user()->id?$match->user_id_2:$match->user_id_1));
+            event(new RequestReponse($match->user_id_1 == Auth::user()->id ? $match->user_id_2 : $match->user_id_1));
         }
     }
 
@@ -162,7 +162,7 @@ class GamePage extends Component
                         [$match->box_4, $match->box_5, $match->box_6],
                         [$match->box_7, $match->box_8, $match->box_9]
                     ];
-                    if ($match->winner!=null) {
+                    if ($match->winner != null) {
                         $this->winner = $match->Winner;
                         $this->is_draw = false;
                     } else {
@@ -179,7 +179,7 @@ class GamePage extends Component
                     if ($match->winner) {
                         $this->winner = $match->Winner;
                     }
-                    if ($match->winner!=null) {
+                    if ($match->winner != null) {
                         $this->winner = $match->Winner;
                         $this->is_draw = false;
                     } else {
@@ -192,137 +192,143 @@ class GamePage extends Component
                 }
             }
         }
+        return redirect('/');
     }
 
     public function clickField($no_field)
     {
         $match  = Match::find($this->match_id);
-        $arr_match = $match->toArray();
-        if ($arr_match['box_' . $no_field] != '#') {
-            return;
-        }
-        $user_type = -1;
-        if ($match->user_id_1 == Auth::user()->id) {
-            $user_type = 1;
-        } elseif ($match->user_id_2 == Auth::user()->id) {
-            $user_type = 2;
-        } else {
-            return;
-        }
-        if ($match->turn != $user_type) {
-            return;
-        }
-        $icon = $user_type == 1 ? $match->user_1_icon : $match->user_2_icon;
-        $match->update([
-            'box_' . $no_field => $icon,
-            'turn' => $user_type == 1 ? 2 : 1
-        ]);
-        if (
-            (($match->box_1 == $match->box_2) && ($match->box_1 == $match->box_3)) || (($match->box_1 == $match->box_4) && ($match->box_1 == $match->box_7))
-        ) {
-            if ($match->box_1 != '#') {
-                $icon = $match->box_1;
-                $winner_id = $match->user_1_icon == $icon ? $match->user_id_1 : $match->user_id_2;
-                $this->winner = $match->user_1_icon == $icon ? $match->FirstPlayer : $match->SecondPlayer;
-                $match->update([
-                    'status' => 'finish',
-                    'winner' => $winner_id
-                ]);
-                if ($winner_id == $match->user_id_1) {
-                    $winner = User::find($match->user_id_1);
-                    $winner->win = $winner->win + 1;
-                    $winner->save();
-
-                    $loser = User::find($match->user_id_2);
-                    $loser->lose = $loser->lose + 1;
-                    $loser->save();
-                } else {
-                    $winner = User::find($match->user_id_2);
-                    $winner->win = $winner->win + 1;
-                    $winner->save();
-
-                    $loser = User::find($match->user_id_1);
-                    $loser->lose = $loser->lose + 1;
-                    $loser->save();
+        if ($match) {
+            if ($match->user_id_1 == Auth::user()->id || $match->user_id_2 == Auth::user()->id) {
+                $arr_match = $match->toArray();
+                if ($arr_match['box_' . $no_field] != '#') {
+                    return;
                 }
+                $user_type = -1;
+                if ($match->user_id_1 == Auth::user()->id) {
+                    $user_type = 1;
+                } elseif ($match->user_id_2 == Auth::user()->id) {
+                    $user_type = 2;
+                } else {
+                    return;
+                }
+                if ($match->turn != $user_type) {
+                    return;
+                }
+                $icon = $user_type == 1 ? $match->user_1_icon : $match->user_2_icon;
+                $match->update([
+                    'box_' . $no_field => $icon,
+                    'turn' => $user_type == 1 ? 2 : 1
+                ]);
+                if (
+                    (($match->box_1 == $match->box_2) && ($match->box_1 == $match->box_3)) || (($match->box_1 == $match->box_4) && ($match->box_1 == $match->box_7))
+                ) {
+                    if ($match->box_1 != '#') {
+                        $icon = $match->box_1;
+                        $winner_id = $match->user_1_icon == $icon ? $match->user_id_1 : $match->user_id_2;
+                        $this->winner = $match->user_1_icon == $icon ? $match->FirstPlayer : $match->SecondPlayer;
+                        $match->update([
+                            'status' => 'finish',
+                            'winner' => $winner_id
+                        ]);
+                        if ($winner_id == $match->user_id_1) {
+                            $winner = User::find($match->user_id_1);
+                            $winner->win = $winner->win + 1;
+                            $winner->save();
+
+                            $loser = User::find($match->user_id_2);
+                            $loser->lose = $loser->lose + 1;
+                            $loser->save();
+                        } else {
+                            $winner = User::find($match->user_id_2);
+                            $winner->win = $winner->win + 1;
+                            $winner->save();
+
+                            $loser = User::find($match->user_id_1);
+                            $loser->lose = $loser->lose + 1;
+                            $loser->save();
+                        }
+                    }
+                }
+                if (
+                    (($match->box_9 == $match->box_6) && ($match->box_9 == $match->box_3)) || (($match->box_9 == $match->box_8) && ($match->box_9 == $match->box_7))
+                ) {
+
+                    if ($match->box_9 != '#') {
+                        $icon = $match->box_9;
+                        $winner_id = $match->user_1_icon == $icon ? $match->user_id_1 : $match->user_id_2;
+                        $this->winner = $match->user_1_icon == $icon ? $match->FirstPlayer : $match->SecondPlayer;
+                        $match->update([
+                            'status' => 'finish',
+                            'winner' => $winner_id
+                        ]);
+                        if ($winner_id == $match->user_id_1) {
+                            $winner = User::find($match->user_id_1);
+                            $winner->win = $winner->win + 1;
+                            $winner->save();
+
+                            $loser = User::find($match->user_id_2);
+                            $loser->lose = $loser->lose + 1;
+                            $loser->save();
+                        } else {
+                            $winner = User::find($match->user_id_2);
+                            $winner->win = $winner->win + 1;
+                            $winner->save();
+
+                            $loser = User::find($match->user_id_1);
+                            $loser->lose = $loser->lose + 1;
+                            $loser->save();
+                        }
+                    }
+                }
+                if (
+                    (($match->box_5 == $match->box_1) && ($match->box_5 == $match->box_9)) || (($match->box_5 == $match->box_3) && ($match->box_5 == $match->box_7)) ||
+                    (($match->box_5 == $match->box_2) && ($match->box_5 == $match->box_8)) || (($match->box_4 == $match->box_5) && ($match->box_5 == $match->box_6))
+                ) {
+                    if ($match->box_5 != '#') {
+                        $icon = $match->box_5;
+                        $winner_id = $match->user_1_icon == $icon ? $match->user_id_1 : $match->user_id_2;
+                        $this->winner = $match->user_1_icon == $icon ? $match->FirstPlayer : $match->SecondPlayer;
+                        $match->update([
+                            'status' => 'finish',
+                            'winner' => $winner_id
+                        ]);
+                        if ($winner_id == $match->user_id_1) {
+                            $winner = User::find($match->user_id_1);
+                            $winner->win = $winner->win + 1;
+                            $winner->save();
+
+                            $loser = User::find($match->user_id_2);
+                            $loser->lose = $loser->lose + 1;
+                            $loser->save();
+                        } else {
+                            $winner = User::find($match->user_id_2);
+                            $winner->win = $winner->win + 1;
+                            $winner->save();
+
+                            $loser = User::find($match->user_id_1);
+                            $loser->lose = $loser->lose + 1;
+                            $loser->save();
+                        }
+                    }
+                }
+                if ($match->box_1 != '#' && $match->box_2 != '#' && $match->box_3 != '#' && $match->box_4 != '#' && $match->box_5 != '#' && $match->box_6 != '#' && $match->box_7 != '#' && $match->box_8 != '#' && $match->box_9 != '#') {
+                    $match->update([
+                        'status' => 'finish'
+                    ]);
+
+                    $user_1 = User::find($match->user_id_1);
+                    $user_1->draw = $user_1->draw + 1;
+                    $user_1->save();
+
+                    $user_2 = User::find($match->user_id_2);
+                    $user_2->draw = $user_2->draw + 1;
+                    $user_2->save();
+                }
+                event(new GameplayEvent($match));
             }
         }
-        if (
-            (($match->box_9 == $match->box_6) && ($match->box_9 == $match->box_3)) || (($match->box_9 == $match->box_8) && ($match->box_9 == $match->box_7))
-        ) {
-
-            if ($match->box_9 != '#') {
-                $icon = $match->box_9;
-                $winner_id = $match->user_1_icon == $icon ? $match->user_id_1 : $match->user_id_2;
-                $this->winner = $match->user_1_icon == $icon ? $match->FirstPlayer : $match->SecondPlayer;
-                $match->update([
-                    'status' => 'finish',
-                    'winner' => $winner_id
-                ]);
-                if ($winner_id == $match->user_id_1) {
-                    $winner = User::find($match->user_id_1);
-                    $winner->win = $winner->win + 1;
-                    $winner->save();
-
-                    $loser = User::find($match->user_id_2);
-                    $loser->lose = $loser->lose + 1;
-                    $loser->save();
-                } else {
-                    $winner = User::find($match->user_id_2);
-                    $winner->win = $winner->win + 1;
-                    $winner->save();
-
-                    $loser = User::find($match->user_id_1);
-                    $loser->lose = $loser->lose + 1;
-                    $loser->save();
-                }
-            }
-        }
-        if (
-            (($match->box_5 == $match->box_1) && ($match->box_5 == $match->box_9)) || (($match->box_5 == $match->box_3) && ($match->box_5 == $match->box_7)) ||
-            (($match->box_5 == $match->box_2) && ($match->box_5 == $match->box_8)) || (($match->box_4 == $match->box_5) && ($match->box_5 == $match->box_6))
-        ) {
-            if ($match->box_5 != '#') {
-                $icon = $match->box_5;
-                $winner_id = $match->user_1_icon == $icon ? $match->user_id_1 : $match->user_id_2;
-                $this->winner = $match->user_1_icon == $icon ? $match->FirstPlayer : $match->SecondPlayer;
-                $match->update([
-                    'status' => 'finish',
-                    'winner' => $winner_id
-                ]);
-                if ($winner_id == $match->user_id_1) {
-                    $winner = User::find($match->user_id_1);
-                    $winner->win = $winner->win + 1;
-                    $winner->save();
-
-                    $loser = User::find($match->user_id_2);
-                    $loser->lose = $loser->lose + 1;
-                    $loser->save();
-                } else {
-                    $winner = User::find($match->user_id_2);
-                    $winner->win = $winner->win + 1;
-                    $winner->save();
-
-                    $loser = User::find($match->user_id_1);
-                    $loser->lose = $loser->lose + 1;
-                    $loser->save();
-                }
-            }
-        }
-        if ($match->box_1 != '#' && $match->box_2 != '#' && $match->box_3 != '#' && $match->box_4 != '#' && $match->box_5 != '#' && $match->box_6 != '#' && $match->box_7 != '#' && $match->box_8 != '#' && $match->box_9 != '#') {
-            $match->update([
-                'status' => 'finish'
-            ]);
-
-            $user_1 = User::find($match->user_id_1);
-            $user_1->draw = $user_1->draw + 1;
-            $user_1->save();
-
-            $user_2 = User::find($match->user_id_2);
-            $user_2->draw = $user_2->draw + 1;
-            $user_2->save();
-        }
-        event(new GameplayEvent($match));
+        return redirect('/');
     }
 
     public function mainLagi()
